@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FIAP.Hackathon.OES.Campaign.Domain\FIAP.Hackathon.OES.Campaign.Domain.csproj" />
+    <ProjectReference Include="..\FIAP.Hackathon.OES.Campaign.Infra\FIAP.Hackathon.OES.Campaign.Infra.csproj" />
+  </ItemGroup>
+
+</Project>

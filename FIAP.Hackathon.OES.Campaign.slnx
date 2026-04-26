@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="FIAP.Hackathon.OES.Campaign.API/FIAP.Hackathon.OES.Campaign.API.csproj" />
+  <Project Path="FIAP.Hackathon.OES.Campaign.Domain/FIAP.Hackathon.OES.Campaign.Domain.csproj" Id="50a69ae1-e103-4684-9483-8fc71b3d1ae0" />
+  <Project Path="FIAP.Hackathon.OES.Campaign.Infra/FIAP.Hackathon.OES.Campaign.Infra.csproj" Id="c5e5acde-dfdb-4412-8b5f-132fc5852530" />
+  <Project Path="FIAP.Hackathon.OES.Campaign.Service/FIAP.Hackathon.OES.Campaign.Service.csproj" Id="e82d3a50-9bcc-455a-9e4d-d239cf2fc7a3" />
+</Solution>
