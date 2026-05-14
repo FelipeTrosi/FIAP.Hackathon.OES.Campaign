@@ -38,6 +38,10 @@ public class CampaignConfiguration : IEntityTypeConfiguration<CampaignEntity>
         builder.Property(p => p.FinancialGoal)
             .IsRequired();
 
+        builder.Property(p => p.TotalDonationsCollected)
+            .IsRequired()
+            .HasDefaultValue(0);
+
         builder.Property(p => p.Status)
             .HasConversion<int>();
     }

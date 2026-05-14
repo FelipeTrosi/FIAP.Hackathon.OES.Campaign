@@ -11,4 +11,5 @@ public class CampaignOutputDto : EntityBase
     public DateTime? FinishedDateTime { get; set; }
     public decimal FinancialGoal { get; set; }
     public StatusCampaignEnum Status { get; set; }
+    public decimal TotalDonationsCollected { get; set; }
 }

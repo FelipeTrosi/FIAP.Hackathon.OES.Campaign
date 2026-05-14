@@ -1,5 +1,6 @@
 using FIAP.Hackathon.OES.Campaign.API.Extensions;
 using FIAP.Hackathon.OES.User.Infra.Repository;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Prometheus;
@@ -78,6 +79,23 @@ builder.Services.AddCorrelationIdGenerator();
 builder.Services.AddRepositoryDI();
 builder.Services.AddServiceDI();
 
+#endregion
+
+#region Masstransit
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(configuration.GetSection("RabbitMQ:Host").Value, "/", h =>
+        {
+            h.Username(configuration.GetSection("RabbitMQ:User").Value!);
+            h.Password(configuration.GetSection("RabbitMQ:Pass").Value!);
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+});
 #endregion
 
 builder.Services.AddControllers().AddJsonOptions(options =>

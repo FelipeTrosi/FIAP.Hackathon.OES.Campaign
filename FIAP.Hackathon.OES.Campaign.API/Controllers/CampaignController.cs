@@ -72,9 +72,45 @@ public class CampaignController(ICampaignService service) : ControllerBase
     /// </summary>
     /// <response code="200">Lista de campanhas retornada com sucesso.</response>
     [HttpGet("GetAll")]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         return Ok(_service.GetAll());
+    }
+
+    /// <summary>
+    /// Lista todas campanhas ativas.
+    /// </summary>
+    /// <response code="200">Lista de campanhas retornada com sucesso.</response>
+    [Authorize(Roles = "WORKER")]
+    [HttpGet("GetActiveCampaigns")]
+    public async Task<IActionResult> GetActiveCampaigns()
+    {
+        return Ok(_service.GetActiveCampaigns());
+    }
+
+    /// <summary>
+    /// Cria uma doação.
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpPost("PostDonation")]
+    public async Task<IActionResult> PostDonation([FromBody] CampaignCreateDonationDto input)
+    {
+        await _service.CreateDonationAsync(input);
+        return Ok();
+    }
+
+    /// <summary>
+    /// Atualiza o valor de uma Campanha.
+    /// </summary>
+    /// <response code="200"></response>
+    /// <param name="request">id e valor.</param>
+    /// <response code="200">Campanha atualizada com sucesso.</response>
+    /// <response code="404">Campanha não encontrado.</response>
+    [HttpPut("UpdateCampaignValue")]
+    public async Task<IActionResult> UpdateCampaignValue(CampaignUpdateValueDto request)
+    {
+        return Ok(_service.UpdateCampaignDoanatedValue(request.CampaignId, request.Value));
     }
 
 }
