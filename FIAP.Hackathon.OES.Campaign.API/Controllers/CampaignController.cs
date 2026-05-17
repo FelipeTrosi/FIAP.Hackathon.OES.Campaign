@@ -72,7 +72,7 @@ public class CampaignController(ICampaignService service) : ControllerBase
     /// </summary>
     /// <response code="200">Lista de campanhas retornada com sucesso.</response>
     [HttpGet("GetAll")]
-    [Authorize]
+    [Authorize(Policy = "MANAGER")]
     public async Task<IActionResult> GetAll()
     {
         return Ok(_service.GetAll());
@@ -82,7 +82,6 @@ public class CampaignController(ICampaignService service) : ControllerBase
     /// Lista todas campanhas ativas.
     /// </summary>
     /// <response code="200">Lista de campanhas retornada com sucesso.</response>
-    [Authorize(Roles = "WORKER")]
     [HttpGet("GetActiveCampaigns")]
     public async Task<IActionResult> GetActiveCampaigns()
     {
@@ -108,6 +107,7 @@ public class CampaignController(ICampaignService service) : ControllerBase
     /// <response code="200">Campanha atualizada com sucesso.</response>
     /// <response code="404">Campanha não encontrado.</response>
     [HttpPut("UpdateCampaignValue")]
+    [Authorize(Policy = "WORKER")]
     public async Task<IActionResult> UpdateCampaignValue(CampaignUpdateValueDto request)
     {
         return Ok(_service.UpdateCampaignDoanatedValue(request.CampaignId, request.Value));

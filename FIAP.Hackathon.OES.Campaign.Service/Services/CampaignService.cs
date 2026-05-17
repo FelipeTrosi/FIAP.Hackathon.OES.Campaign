@@ -102,11 +102,11 @@ public class CampaignService(IBaseLogger<CampaignService> logger, ICampaignRepos
         _logger.LogInformation($"Campanha com id {id} removido com sucesso !");
     }
 
-    public IEnumerable<CampaignOutputDto> GetActiveCampaigns()
+    public IEnumerable<CampaignActiveOutputDto> GetActiveCampaigns()
     {
         _logger.LogInformation("Iniciando serviço 'GetActiveCampaigns' de Campanha !");
 
-        return ParseModel.Map<ICollection<CampaignOutputDto>>(_repository.GetActiveCampaigns());
+        return ParseModel.Map<ICollection<CampaignActiveOutputDto>>(_repository.GetActiveCampaigns());
     }
 
     public ICollection<CampaignOutputDto> GetAll()
