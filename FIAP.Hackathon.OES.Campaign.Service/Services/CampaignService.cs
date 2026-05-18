@@ -23,10 +23,10 @@ public class CampaignService(IBaseLogger<CampaignService> logger, ICampaignRepos
 
         _logger.LogInformation("Iniciando serviço 'CREATE' de campanha !");
 
-        if (entity.StartedDateTime < DateTime.Now)
+        if (entity.FinishedDateTime < DateTime.Now)
         {
-            _logger.LogError("Data de criação inválida");
-            errors["StartedDateTime"] = ["Data de criação inválida"];
+            _logger.LogError("A campanha não pode ser criada com a data de término no passado");
+            errors["FinishedDateTime"] = ["A campanha não pode ser criada com a data de término no passado"];
         }
 
         if (entity.FinancialGoal <= 0)
@@ -137,31 +137,37 @@ public class CampaignService(IBaseLogger<CampaignService> logger, ICampaignRepos
 
         _logger.LogInformation($"Iniciando serviço 'UPDATE' de Campanha com Id {entity.Id}!");
 
-        if (entity.StartedDateTime < DateTime.Now)
+        if (entity.FinishedDateTime < DateTime.Now)
         {
-            _logger.LogError("Data de criação inválida");
-            errors["Email"] = ["Data de criação inválida"];
+            _logger.LogError("A campanha não pode ser criada com a data de término no passado");
+            errors["FinishedDateTime"] = ["A campanha não pode ser criada com a data de término no passado"];
         }
 
         if (entity.FinancialGoal <= 0)
         {
             _logger.LogError("Meta financeira deve ser maior que 0");
-            errors["Email"] = ["Meta financeira deve ser maior que 0"];
+            errors["FinancialGoal"] = ["Meta financeira deve ser maior que 0"];
         }
 
         if (errors.Any())
             throw new BadRequestException("Erro de validação", errors);
 
-        _repository.Update(new()
-        {
-            Id = entity.Id,
-            CreatedAt = entity.CreatedAt,
-            Description = entity.Description,
-            StartedDateTime = entity.StartedDateTime,
-            FinishedDateTime = entity.FinishedDateTime,
-            FinancialGoal = entity.FinancialGoal,
-            Status = entity.Status
-        });
+        var campaign = _repository.GetById(entity.Id);
+
+        if (campaign is null)
+            throw new NotFoundException("Campanha não encontrada.");
+
+        campaign.Description = entity.Description;
+        campaign.StartedDateTime = entity.StartedDateTime;
+        campaign.FinishedDateTime = entity.FinishedDateTime;
+        campaign.FinancialGoal = entity.FinancialGoal;
+        campaign.Status = entity.Status;
+        campaign.Title = entity.Title;
+
+        // Não mexe nesse campo:
+        // campaign.TotalDonationsCollected permanece como está no banco.
+
+        _repository.Update(campaign);
 
         _logger.LogInformation($"Campanha com Id {entity.Id} atualizado com sucesso !");
     }
